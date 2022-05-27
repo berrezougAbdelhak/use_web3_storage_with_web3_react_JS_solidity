@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { Web3Storage } from 'web3.storage';
 import lottery from './lottery';
 function App() {
+  
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJFOGEyREY3MTJGMzdCNTk1NzYwNzQ0YmZCQzlFRTI1NDZhYTBCMjgiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTM0MjA2ODc2MDAsIm5hbWUiOiJUZXN0X0FwaSJ9.CyrPRZBq4Dj0WvrNBOCCn7hBZUAblnKN13ILSz--ipw";
-    const storage = new Web3Storage({ token });
-
-  const[file,setfile]=useState(":")
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJFOGEyREY3MTJGMzdCNTk1NzYwNzQ0YmZCQzlFRTI1NDZhYTBCMjgiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTM0MjA2ODc2MDAsIm5hbWUiOiJUZXN0X0FwaSJ9.CyrPRZBq4Dj0WvrNBOCCn7hBZUAblnKN13ILSz--ipw"
+  const storage = new Web3Storage({ token });
+  const[file,setfile]=useState("")
   const [fileReturn,setfileReturn]=useState("file before upload")
   const [cid,setCid]=useState("")
   const onLoadFile=async(event)=>{
@@ -17,8 +17,9 @@ function App() {
     event.preventDefault()
 
     console.log("in assign file  ")
-    const file=event.target.files[0]
+    const file=event.target.files
     console.log("on set file ")
+    
     setfile(file)
 
   }
@@ -30,9 +31,10 @@ function App() {
     console.log(cid)
     setCid(cid)
     const accounts=await web3.eth.getAccounts()
-
+    
     console.log(accounts[0])
-    await lottery.methods.setHash(cid).send(
+  
+    lottery.methods.setHash(cid).send(
       {
         from:accounts[0]
       }
@@ -41,6 +43,7 @@ function App() {
   }
     const onGetFile=async()=>{
       const accounts=await web3.eth.getAccounts()
+      console.log("The add of first account " +accounts[0])
       const res=await storage.get(cid)
       console.log(res)
       const files=await res.files()
