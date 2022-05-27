@@ -3,8 +3,9 @@ import './App.css';
 import web3 from './web3';
 import { useState } from 'react';
 import { Web3Storage } from 'web3.storage';
-import lottery from './lottery';
+import patient from './patient';
 function App() {
+    
   
   const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJFOGEyREY3MTJGMzdCNTk1NzYwNzQ0YmZCQzlFRTI1NDZhYTBCMjgiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTM0MjA2ODc2MDAsIm5hbWUiOiJUZXN0X0FwaSJ9.CyrPRZBq4Dj0WvrNBOCCn7hBZUAblnKN13ILSz--ipw"
@@ -12,6 +13,7 @@ function App() {
   const[file,setfile]=useState("")
   const [fileReturn,setfileReturn]=useState("file before upload")
   const [cid,setCid]=useState("")
+
   const onLoadFile=async(event)=>{
     event.stopPropagation()
     event.preventDefault()
@@ -32,9 +34,11 @@ function App() {
     setCid(cid)
     const accounts=await web3.eth.getAccounts()
     
-    console.log(accounts[0])
   
-    lottery.methods.setHash(cid).send(
+
+    const cid_hash=cid+" "
+    console.log("lec cid a envoyer au contract est " + cid)
+    patient.methods.setHash(cid_hash).send(
       {
         from:accounts[0]
       }
@@ -43,17 +47,23 @@ function App() {
   }
     const onGetFile=async()=>{
       const accounts=await web3.eth.getAccounts()
-      console.log("The add of first account " +accounts[0])
-      const res=await storage.get(cid)
-      console.log(res)
-      const files=await res.files()
-      const cid_res=await lottery.methods.getHash().call({
+      const cid_res=await patient.methods.getHash().call({
         from:accounts[0]
       })
       console.log("le hash from contract est "+cid_res)
-      console.log(files)
-      const lien=cid_res +".ipfs.dweb.link/"+files[0].name
-      setfileReturn(lien)
+      const cid_final=cid_res.split(" ")
+      console.log(cid_final)
+      for (let i=0;i<cid_final.length-1;i++)
+      {
+        console.log(cid_final[i])
+        const res=await storage.get(cid_final[i])
+        const files=await res.files()
+        const lien=cid_final[i] +".ipfs.dweb.link/"+files[0].name
+        console.log(lien)
+
+      }
+      // console.log(res)
+      // setfileReturn(lien)
       //   console.log(files[0])
       //   console.log(`${files.cid} -- ${files.path} -- ${files.size}`)
       
