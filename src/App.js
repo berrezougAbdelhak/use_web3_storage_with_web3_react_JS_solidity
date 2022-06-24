@@ -1,10 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
 import web3 from "./web3";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Web3Storage, getFilesFromPath } from "web3.storage";
 import { VscJson, VscFilePdf } from "react-icons/vsc";
 import { FiImage } from "react-icons/fi";
+import {FileText,File,Image} from "react-feather"
 // import "./dataTable_custom.scss"
 // import patient from "./patient";
 import {
@@ -401,21 +402,20 @@ const COLUMNS = [
     selector: "ICON",
     sortable: false,
     minWidth: "150px",
-    cell: (row) => {
-      row.type === "son" ? (
-        <p>
-          <VscJson size={30} color="black" />
-        </p>
-      ) : row.type === "pdf" ? (
-        <p>
-          <VscFilePdf size={30} color="black" />
-        </p>
-      ) : (
-        <p>
-          <FiImage size={30} color="black" />
-        </p>
-      );
-    },
+    cell: (row) => (<p> {  row.type === "pdf" ? (
+      // <Image src={require("./pdf.png")} width="20px" height="20px" />
+        <VscFilePdf size={25} />
+      
+        // <File size={30} color="black" />
+    ) : row.type === "son" ? (
+        <VscJson size={25}/>
+    ) : (
+      <FiImage size={25} />
+    )}
+    </p>)
+    // {
+    
+    // },
   },
   {
     name: "File name",
@@ -425,14 +425,14 @@ const COLUMNS = [
     cell: (row) => <p className="text-bold-500 mb-0">{row.file}</p>,
   },
   {
-    name: "Date of creation",
+    name: "Link",
     selector: "DateCreation",
     sortable: true,
     minWidth: "250px",
     cell: (row) => (
-      <p className="text-bold-500 mb-0">
-        {new Date(row.lastModified).toISOString()}
-      </p>
+      <a href={`https://${row.lien}`} className="text-bold-500 mb-0">
+        {row.lien} 
+      </a>
     ),
   },
 ];
@@ -451,14 +451,14 @@ function App() {
   const [data, setData] = useState();
   const [rowData, setRowData] = useState({ lien: "" });
   const [modal, setModal] = useState(false);
-  useEffect(() => {
+  // useEffect(() => {
 
-    const interval = setInterval(() => {
-      onGetFile()
+  //   const interval = setInterval(() => {
+  //     onGetFile()
 
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+  //   }, 2000);
+  //   return () => clearInterval(interval);
+  // }, []);
   const OnChangePatientId = (e) => {
     setPatientId(e.target.value);
   };
@@ -475,31 +475,38 @@ function App() {
     console.log("on set file ");
     setfile(file);
   };
-  // const onSubmit = async (event) => {
-  //   event.preventDefault();
-  //   console.log("On essaye d'envoyer les données au web3 ");
-  //   const cid = await storage.put(file);
-  //   console.log(cid);
-  //   setCid(cid);
-  //   let accounts = [];
-  //   try {
-  //     accounts = await web3.eth.getAccounts();
-  //     console.log("The accounts are", accounts);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+  const onSubmit = async (event) => {
+    const patient = new web3.eth.Contract(abi, patientId);
+    event.preventDefault();
+    console.log("On essaye d'envoyer les données au web3 ");
+    const cid = await storage.put(file);
+    console.log(cid);
+    setCid(cid);
+    let accounts = [];
+    try {
+      accounts = await web3.eth.getAccounts();
+      console.log("The accounts are", accounts);
+    } catch (error) {
+      console.log(error);
+    }
 
-  //   const cid_hash = cid + " ";
-  //   console.log("lec cid a envoyer au contract est " + cid);
+    const cid_hash = cid + " ";
+    console.log("lec cid a envoyer au contract est " + cid);
 
-  //   console.log(accounts[0]);
-  //   patient.methods.setHash(cid_hash).send({
-  //     from: accounts[0],
-  //   });
-  // };
+    console.log(accounts[0]);
+    patient.methods.setHash(cid_hash).send({
+      from: accounts[0],
+    });
+    onGetFile()
+  };
   const onGetFile = async () => {
     const accounts = await web3.eth.getAccounts();
     const patient = new web3.eth.Contract(abi, patientId);
+    //    const interval = setInterval(() => {
+    // onGetFile()
+
+    // }, 2000);
+
     const cid_res = await patient.methods.getHash().call({
       from: accounts[0],
     });
@@ -523,11 +530,14 @@ function App() {
     // console.log("le tableau des hash est "+cid_final);
     const data = [];
     for (let i = 0; i < cid_final.length - 1; i++) {
-      console.log(cid_final[i]);
+      // console.log(cid_final[i]);
       const res = await storage.get(cid_final[i]);
       const files = await res.files();
+      if (i == 1) {
+        console.log(files[0]);
+      }
       const lien = cid_final[i] + ".ipfs.dweb.link/" + files[0].name;
-      // console.log(lien);
+      console.log(lien);
       data.push({
         file: files[0].name,
         type: files[0].name.substring(files[0].name.length - 3),
@@ -535,7 +545,7 @@ function App() {
         lien: lien,
       });
     }
-    setData(data);
+    setData(data.reverse());
     // console.log(res)
     // setfileReturn(lien)
     //   console.log(files[0])
@@ -544,7 +554,8 @@ function App() {
     // setfileReturn(files[0])
     // const json=JSON.parse(files[0])
   };
-
+  
+  
   return (
     // <div className="App">
 
@@ -556,12 +567,16 @@ function App() {
     //   <button onClick={onGetFile}> get the file from web3 storage </button>
     //   <h1> {fileReturn}</h1>
     // </div>
+    // <div style={{
+    //   backgroundImage:'url("medical-team.png")'
+    // }} >
     <Container
       style={{
         height: "100vh",
         alignItems: "center",
         justifyContent: "center",
         display: "flex",
+        // backgroundImage:'url("medical-team.png")'
       }}
     >
       {!dataCollected ? (
@@ -585,6 +600,15 @@ function App() {
             noHeader
             pagination
             subHeader
+            subHeaderComponent={isDoctor && (
+              <div className="d-flex">
+                {" "}
+                <Input type="file" onChange={onLoadFile} />
+                <Button  className="ml-3" color="secondary" onClick={onSubmit} >  sendIt</Button>
+                
+                
+              </div>
+            )}
             paginationPerPage={10}
             onRowClicked={(row) => {
               setRowData(row);
@@ -592,10 +616,11 @@ function App() {
             }}
             highlightOnHover
           />
+          
           <Modal isOpen={modal} toggle={toggleModal}>
             <ModalHeader toggle={toggleModal}>File</ModalHeader>
             <ModalBody>
-              {rowData.type === "pdf" || rowData.type==="son" ? (
+              {rowData.type === "pdf" || rowData.type === "son" ? (
                 <iframe
                   height="450px"
                   width="450px"
@@ -614,12 +639,14 @@ function App() {
                 Cancel
               </Button>
             </ModalFooter>
+            
           </Modal>
         </Card>
       ) : (
         <div></div>
       )}
     </Container>
+    // </div>
   );
 }
 
