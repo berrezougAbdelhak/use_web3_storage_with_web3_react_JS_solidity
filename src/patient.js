@@ -1,10 +1,26 @@
 import web3 from "./web3";
 
 const address="0x30176c0c66a36EBBDb0021d7cb7B7A9282719717" //"0x5f5c388027124c1aD745982DcDda9E340509e10A"  //add with hash=x"0x2d5A9E557C6A00DCEf9FCDd71a9572c5BA623Dd1"
-
+// Berrezoug abdelhak 0x8Fe44e1fa1958758e326aFeEc5F30b3a9Bae13Bd
 const abi=[
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "root",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name_",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "dateOfBirth_",
+				"type": "string"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -163,12 +179,25 @@ const abi=[
 	},
 	{
 		"inputs": [],
-		"name": "getHash",
+		"name": "dateOfBirth",
 		"outputs": [
 			{
 				"internalType": "string",
-				"name": "x",
+				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getHash",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
 			}
 		],
 		"stateMutability": "view",
@@ -287,6 +316,19 @@ const abi=[
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
