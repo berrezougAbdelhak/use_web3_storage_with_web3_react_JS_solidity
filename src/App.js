@@ -7,6 +7,7 @@ import { VscJson, VscFilePdf } from "react-icons/vsc";
 import { FiImage } from "react-icons/fi";
 import {FileText,File,Image} from "react-feather"
 import background from "./towfiqu-barbhuiya-QsBfOwMoPNY-unsplash.jpg"
+import ApexChart from "./ApexChart";
 // import "./dataTable_custom.scss"
 // import patient from "./patient";
 import {
@@ -25,6 +26,112 @@ import {
 import DataTable from "react-data-table-component";
 
 const abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "addAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "addDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "addPatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "grantRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "removeDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "renounceRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "revokeRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [
 			{
@@ -122,6 +229,32 @@ const abi = [
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "x",
+				"type": "string"
+			}
+		],
+		"name": "setHash",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "dateOfBirth",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "DEFAULT_ADMIN_ROLE",
 		"outputs": [
@@ -149,77 +282,12 @@ const abi = [
 	},
 	{
 		"inputs": [],
-		"name": "PATIENT_ROLE",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "addAdmin",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "addDoctor",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "addPatient",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "dateOfBirth",
+		"name": "getHash",
 		"outputs": [
 			{
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getHash",
-		"outputs": [
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
 			}
 		],
 		"stateMutability": "view",
@@ -242,24 +310,6 @@ const abi = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "grantRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -357,65 +407,16 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "removeDoctor",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+		"inputs": [],
+		"name": "PATIENT_ROLE",
+		"outputs": [
 			{
 				"internalType": "bytes32",
-				"name": "role",
+				"name": "",
 				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
 			}
 		],
-		"name": "renounceRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "revokeRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "x",
-				"type": "string"
-			}
-		],
-		"name": "setHash",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -441,7 +442,7 @@ const abi = [
 
 const COLUMNS = [
   {
-    name: "Icon",
+    name: "Type",
     selector: "ICON",
     sortable: false,
     minWidth: "150px",
@@ -496,14 +497,14 @@ function App() {
   const [dateOfBirthPatient,setdateofBirthPatient]=useState()
   const [rowData, setRowData] = useState({ lien: "" });
   const [modal, setModal] = useState(false);
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   const interval = setInterval(() => {
-  //     onGetFile()
+    const interval = setInterval(() => {
+      onGetFile()
 
-  //   }, 2000);
-  //   return () => clearInterval(interval);
-  // }, []);
+    }, 2000);
+    return () => clearInterval(interval);
+  });
   const OnChangePatientId = (e) => {
     setPatientId(e.target.value);
   };
@@ -542,7 +543,6 @@ function App() {
     patient.methods.setHash(cid_hash).send({
       from: accounts[0],
     });
-    onGetFile()
   };
   const onGetFile = async () => {
     const accounts = await web3.eth.getAccounts();
@@ -551,24 +551,28 @@ function App() {
     // onGetFile()
 
     // }, 2000);
-
-    const cid_res = await patient.methods.getHash().call({
-      from: accounts[0],
-    });
-    // console.log("le hash from contract est " + cid_res);
+	console.log(accounts[0])
+	
     const isDoctor = await patient.methods.isDoctor(accounts[0]).call({
-      from: accounts[0],
+		from: accounts[0],
+    });
+    const isPatient = await patient.methods.isPatient(accounts[0]).call({
+		from: accounts[0],
     });
     setIsDoctor(isDoctor);
     console.log("you are a doctor " + isDoctor);
-    const isPatient = await patient.methods.isPatient(accounts[0]).call({
-      from: accounts[0],
-    });
     setIsPatient(isPatient);
+	if (!isDoctor && !isPatient ){
+
+		setDataCollected(true);
+	}
     console.log("you are a Patient " + isPatient);
-    if (!isDoctor && !isPatient) {
-      console.log("Your are not doctor or patient ");
-    }
+    if (isDoctor || isPatient) {
+		const cid_res = await patient.methods.getHash().call({
+			from: accounts[0],
+		});
+		console.log("le hash from contract est " + cid_res);
+    
     setDataCollected(true);
     const name=await patient.methods.name().call({
       from:accounts[0]
@@ -576,20 +580,32 @@ function App() {
     console.log(name)
     setNamePatient(name)
     const birthday=await patient.methods.dateOfBirth().call({
-      from:accounts[0]
+		from:accounts[0]
     })
     console.log(birthday)
+	console.log(cid_res.length)
     setdateofBirthPatient(birthday)
-    const cid_final = cid_res.split(" ");
-    // console.log("le tableau des hash est "+cid_final);
+	// const cid_final=[]
+	console.log("cid res est "+cid_res)
+	// if (cid_res.length===1 ){
+		
+	// 	cid_final.push(cid_res[0].substring(0,cid_res[0].length-1))
+	// 	console.log(cid_final)
+	// 	cid_final.push(" ")
+	// }
+	// else{
+
+		const cid_final = cid_res.split(" ");
+	// }
+    console.log("le tableau des hash est "+cid_final);
     const data = [];
     for (let i = 0; i < cid_final.length - 1; i++) {
-      // console.log(cid_final[i]);
+      console.log(cid_final[i]);
       const res = await storage.get(cid_final[i]);
       const files = await res.files();
-      if (i == 1) {
-        console.log(files[0]);
-      }
+      
+      console.log("type",files[0].name);
+      
       const lien = cid_final[i] + ".ipfs.dweb.link/" + files[0].name;
       console.log(lien);
       data.push({
@@ -600,6 +616,8 @@ function App() {
       });
     }
     setData(data.reverse());
+
+	}
     // console.log(res)
     // setfileReturn(lien)
     //   console.log(files[0])
@@ -624,7 +642,11 @@ function App() {
     // <div style={{
     //   backgroundImage:'url("medical-team.png")'
     // }} >
+	
     <div style={ {backgroundImage:`url(${background}`, backgroundSize:"cover"  } }  >
+		{/* <div>
+		<ApexChart></ApexChart>
+	</div> */}
     
     <Container
       // className="logo" style={{backgroundImage: `url(${image}` }} 
@@ -649,6 +671,7 @@ function App() {
           ></Input>
           <Button className="mt-3" color="primary" onClick={onGetFile}>
             Submit{" "}
+			
           </Button>
         </FormGroup>
       ) : isDoctor || isPatient ? (
@@ -706,9 +729,10 @@ function App() {
           </Modal>
         </Card>
       ) : (
-        <div></div>
+        alert("you are not authorized")
       )}
     </Container>
+	
      </div>
   );
 }
